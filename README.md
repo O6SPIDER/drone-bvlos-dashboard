@@ -128,11 +128,7 @@ docs/      → Architecture diagrams & sequence flows
   "battery": 0.0,
   "signal": 0
 }
-
-
-> This schema serves as the **integration contract** between the ESP32 firmware (Part 5) and the cloud platform.
-
----
+```
 
 ## 🔒 Security & Reliability
 
@@ -141,7 +137,7 @@ docs/      → Architecture diagrams & sequence flows
 * Rule-based anomaly detection
 * Designed for **graceful degradation under network instability**
 
----
+
 
 ## 🧪 Testing & Simulation
 
@@ -154,7 +150,7 @@ docs/      → Architecture diagrams & sequence flows
 
 This enables **parallel development** independent of physical drone availability.
 
----
+
 
 ## 🌍 Roadmap / Future Enhancements
 
@@ -164,19 +160,19 @@ This enables **parallel development** independent of physical drone availability
 * 🔔 External alert integrations (SMS / Email / Push)
 * 🌙 Advanced UI themes (dark mode, mission overlays)
 
----
+
 
 ## 📖 License
 
 MIT License — see `LICENSE` file for details.
 
----
+
 
 ## 🧠 Engineering Note
 
 This module represents the **cloud intelligence layer** of the BVLOS system, bridging embedded hardware (ESP32 + Matek H743) with scalable, internet-based telemetry infrastructure.
 
----
+
 
 If you want next, I can:
 
