@@ -16,7 +16,7 @@ const STYLE = `
     pointer-events: auto;
     cursor: pointer;
   }
-  
+
   .sl-container:hover {
     height: 80px;
     padding-bottom: 24px;
@@ -201,7 +201,7 @@ export default function SecureLogoutControl({ onLogout }: Props) {
   return (
     <>
       <style>{STYLE}</style>
-      
+
       {/* Hidden Logout Slider */}
       <div className="sl-container">
         <div className="sl-btn-wrapper">
@@ -234,13 +234,13 @@ export default function SecureLogoutControl({ onLogout }: Props) {
               Are you sure you want to sever the connection? You will stop receiving live telemetry from the UAV.
             </p>
             <div className="sl-modal-actions">
-              <button 
+              <button
                 onClick={() => setShowModal(false)}
                 className="sl-modal-btn-cancel"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={() => {
                   setShowModal(false);
                   onLogout();
