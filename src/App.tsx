@@ -7,6 +7,8 @@ import DroneMap from './components/DroneMap';
 import TelemetryCharts from './components/TelemetryCharts';
 import StatusWidgets from './components/StatusWidgets';
 import Login from './components/Login';
+import ConnectionScreen from './components/ConnectionScreen';
+import SecureLogoutControl from './components/SecureLogoutControl';
 
 // Utility to check if JWT is expired
 function isTokenExpired(token: string): boolean {
@@ -166,42 +168,14 @@ function App() {
       <Header connectionStatus={connectionStatus} droneStatus={telemetry?.status} />
 
       {!telemetry || connectionStatus !== 'connected' ? (
-        <div className="col-span-full flex justify-center items-center min-h-[500px]">
-          <div className="flex flex-col items-center gap-6 p-16 bg-bg-surface backdrop-blur-xl rounded-[24px] border border-border-subtle text-center">
-            {connectionStatus !== 'error' && (
-              <div className="w-[54px] h-[54px] border-3 border-accent-blue/10 border-t-accent-blue rounded-full animate-spin" />
-            )}
-            {connectionStatus === 'error' && (
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-red-500" strokeWidth="1.5">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-            )}
-            <h3 className="text-xl font-semibold text-white tracking-tight">
-              {connectionStatus === 'initializing' && 'Initializing System...'}
-              {connectionStatus === 'connecting' && 'Connecting to ThingsBoard...'}
-              {connectionStatus === 'connected' && !telemetry && 'Waiting for Drone Telemetry...'}
-              {connectionStatus === 'error' && 'Connection Error'}
-              {connectionStatus === 'missing_config' && 'Configuration Missing'}
-            </h3>
-            {errorMessage && <p className="text-sm text-[#fca5a5] max-w-[300px] leading-relaxed">{errorMessage}</p>}
-            {connectionStatus === 'error' && (
-              <button
-                className="bg-accent-blue text-bg-base px-8 h-11 rounded-xe text-sm font-bold transition-all hover:-translate-y-0.5"
-                onClick={() => {
-                  setToken(null);
-                  localStorage.removeItem('tb_token');
-                }}
-              >
-                Sign In Again
-              </button>
-            )}
-            {connectionStatus === 'missing_config' && (
-              <p className="text-xs text-text-secondary">Please check your .env file for TB credentials.</p>
-            )}
-          </div>
-        </div>
+        <ConnectionScreen
+          connectionStatus={connectionStatus}
+          errorMessage={errorMessage}
+          onReset={() => {
+            setToken(null);
+            localStorage.removeItem('tb_token');
+          }}
+        />
       ) : (
         <>
           <main className="flex flex-col gap-6 animate-slide-up">
@@ -219,26 +193,12 @@ function App() {
             <StatusWidgets telemetry={telemetry} />
           </div>
 
-          {/* Hidden Logout Slider */}
-          <div className="fixed bottom-0 left-0 right-0 h-4 flex justify-center items-end pb-0 hover:h-20 hover:pb-6 transition-all duration-300 overflow-hidden z-50 group cursor-pointer">
-            <div className="w-full max-w-sm absolute bottom-[-100%] group-hover:bottom-6 px-4 transition-all duration-300 opacity-0 group-hover:opacity-100 flex justify-center">
-                <button
-                    onClick={() => {
-                      setToken(null);
-                      localStorage.removeItem('tb_token');
-                    }}
-                    className="bg-red-500/90 hover:bg-red-500 backdrop-blur-xl text-white px-8 py-2.5 rounded-full font-bold shadow-lg shadow-red-500/20 flex items-center gap-2 transition-transform hover:-translate-y-1"
-                >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                    Secure Disconnect
-                </button>
-            </div>
-            <div className="absolute bottom-0 w-32 h-1.5 bg-white/20 rounded-t-lg group-hover:opacity-0 transition-opacity" />
-          </div>
+          <SecureLogoutControl
+            onLogout={() => {
+              setToken(null);
+              localStorage.removeItem('tb_token');
+            }}
+          />
         </>
       )}
     </div>
