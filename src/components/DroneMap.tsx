@@ -9,13 +9,28 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-const droneIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+const droneSvg = `
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.9));">
+    <rect x="10" y="10" width="4" height="4" rx="1" fill="#ef4444" />
+    <line x1="14" y1="14" x2="19" y2="19" />
+    <line x1="10" y1="10" x2="5" y2="5" />
+    <line x1="14" y1="10" x2="19" y2="5" />
+    <line x1="10" y1="14" x2="5" y2="19" />
+    <circle cx="5" cy="5" r="2.5" />
+    <circle cx="19" cy="5" r="2.5" />
+    <circle cx="5" cy="19" r="2.5" />
+    <circle cx="19" cy="19" r="2.5" />
+  </svg>
+</div>
+`;
+
+const droneIcon = L.divIcon({
+  html: droneSvg,
+  className: '', // overrides default leaflet square bg
+  iconSize: [48, 48],
+  iconAnchor: [24, 24],
+  popupAnchor: [0, -24]
 });
 
 // Component to handle map centering on drone position updates
