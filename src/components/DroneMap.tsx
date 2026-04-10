@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -38,8 +38,8 @@ type DroneMapProps = {
 
 export default function DroneMap({ lat, lng, altitude, path, initialLat, initialLng }: DroneMapProps) {
   return (
-    <div className="map-container">
-      <div className="map-overlay">
+    <div className="map-container relative">
+      <div className="map-overlay z-[1000]">
         <div className="overlay-metric">
           <span className="overlay-label">LAT</span>
           <span className="overlay-value mono">{lat.toFixed(5)}°</span>
@@ -60,10 +60,38 @@ export default function DroneMap({ lat, lng, altitude, path, initialLat, initial
         zoomControl={false}
       >
         <ChangeView center={[lat, lng]} />
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; OpenStreetMap contributors &copy; CARTO'
-        />
+        
+        <LayersControl position="bottomleft">
+          <LayersControl.BaseLayer checked={true} name="Dark Command">
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+              maxZoom={19}
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="Satellite">
+            <TileLayer
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attribution='Tiles &copy; Esri'
+              maxZoom={19}
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="Hybrid (Google)">
+            <TileLayer
+              url="https://mt0.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+              attribution='Map data &copy; Google'
+              maxZoom={20}
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="Street Map">
+            <TileLayer
+              url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; OpenStreetMap contributors'
+              maxZoom={19}
+            />
+          </LayersControl.BaseLayer>
+        </LayersControl>
+
         <Marker position={[lat, lng]} icon={droneIcon}>
           <Popup>
             Drone Position. <br /> Altitude: {altitude}m

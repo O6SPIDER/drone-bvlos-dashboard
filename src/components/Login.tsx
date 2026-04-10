@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import './Login.css';
 
 type Props = {
   onLogin: (token: string) => void;
@@ -8,6 +9,7 @@ type Props = {
 export default function Login({ onLogin, restUrl }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -35,94 +37,93 @@ export default function Login({ onLogin, restUrl }: Props) {
         throw new Error('No token in response');
       }
     } catch (err: any) {
-      setError(err.message || 'Connection error. Check your ThingsBoard URL.');
+      setError(err.message || 'Connection error. Check uplink status.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <div className="login-icon-box">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-              <path d="M12 2l0 4" />
-              <path d="M12 18l0 4" />
-              <path d="M4.929 4.929l2.828 2.828" />
-              <path d="M16.243 16.243l2.828 2.828" />
-              <path d="M2 12l4 0" />
-              <path d="M18 12l4 0" />
-              <path d="M4.929 19.071l2.828 -2.828" />
-              <path d="M16.243 7.757l2.828 -2.828" />
-              <circle cx="5" cy="5" r="1.5" fill="currentColor" />
-              <circle cx="19" cy="5" r="1.5" fill="currentColor" />
-              <circle cx="5" cy="19" r="1.5" fill="currentColor" />
-              <circle cx="19" cy="19" r="1.5" fill="currentColor" />
+    <div className="dashboard-login-container">
+      {/* Abstract background elements for depth */}
+      <div className="bg-glow"></div>
+
+      <div className="dashboard-login-card">
+        <header className="dashboard-login-header">
+          <div className="system-badge">System v4.0.2</div>
+          <h1>COMMAND CENTER</h1>
+        </header>
+
+        <div className="dashboard-login-body">
+          <div className="login-intro">
+            <svg className="terminal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
             </svg>
+            <h2>Operator Authentication</h2>
           </div>
-          <h1>BVLOS Command Center</h1>
-          <p>Sign in with your ThingsBoard credentials to access the live UAV telemetry dashboard.</p>
+
+          <form onSubmit={handleSubmit} className="dashboard-login-form">
+            {error && (
+              <div className="dashboard-error-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <p>{error}</p>
+              </div>
+            )}
+
+            <div className="dashboard-input-group">
+              <div className="input-field">
+                <label htmlFor="email">Operator ID / Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="name@bvlos.com"
+                  className="dashboard-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="input-field">
+                <label htmlFor="password">Access Key</label>
+                <div className="password-wrapper">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="dashboard-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="password-toggle"
+                  >
+                    {showPassword ? "HIDE" : "SHOW"}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="dashboard-submit-btn"
+            >
+              {loading ? <div className="spinner" /> : 'ESTABLISH UPLINK'}
+            </button>
+          </form>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
-          {error && (
-            <div className="login-error">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="12" />
-                <line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-              {error}
-            </div>
-          )}
-
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <div className="input-box">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              <input
-                id="email"
-                type="email"
-                placeholder="operator@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <div className="input-box">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-            </div>
-          </div>
-
-          <button id="login-btn" className="login-btn" type="submit" disabled={loading}>
-            {loading ? <div className="spinner-small" /> : 'ACCESS COMMAND CENTER'}
-          </button>
-        </form>
-
-        <footer className="login-footer">
-          MP-08 • IoT &amp; Cloud-Enabled UAV Telemetry System
+        <footer className="dashboard-footer">
+          SECURE CHANNEL 08 // ENCRYPTED AES-256
         </footer>
       </div>
     </div>
