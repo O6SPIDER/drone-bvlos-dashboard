@@ -24,6 +24,8 @@ const STYLE = `
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     color: var(--text-main);
     overflow: hidden;
+    padding: 16px;
+    box-sizing: border-box;
   }
 
   .bg-glow {
@@ -222,6 +224,34 @@ const STYLE = `
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 480px) {
+    .dashboard-login-container {
+      padding: 12px;
+    }
+    .dashboard-login-card {
+      max-width: 100%;
+    }
+    .dashboard-login-header {
+      padding: 16px 20px;
+    }
+    .dashboard-login-body {
+      padding: 24px 20px;
+    }
+    .login-intro {
+      margin-bottom: 20px;
+    }
+    .login-intro h2 {
+      font-size: 14px;
+    }
+    .dashboard-input {
+      padding: 10px 14px;
+    }
+    .dashboard-submit-btn {
+      padding: 12px;
+    }
   }
 `;
 
