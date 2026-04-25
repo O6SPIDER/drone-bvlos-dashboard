@@ -115,49 +115,7 @@ export default function StatusWidgets({ telemetry }: Props) {
         </p>
       </div>
 
-      {/* Altitude */}
-      <div className="widget-card brand">
-        <div className="widget-header">
-          <AltIcon />
-          <span>Altitude (AGL)</span>
-        </div>
-        <div className="widget-value-container">
-          <span className="widget-value mono">{altitude.toFixed(2)}</span>
-          <span className="widget-unit">m</span>
-        </div>
-        <div className="progress-bar-bg">
-          <div
-            className="progress-bar-fill"
-            style={{
-              width: `${Math.min(100, (altitude / 400) * 100)}%`,
-              background: 'var(--accent-blue)',
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Speed */}
-      <div className="widget-card brand">
-        <div className="widget-header">
-          <SpeedIcon />
-          <span>Ground Speed</span>
-        </div>
-        <div className="widget-value-container">
-          <span className="widget-value mono">{speed.toFixed(2)}</span>
-          <span className="widget-unit">m/s</span>
-        </div>
-        <div className="progress-bar-bg">
-          <div
-            className="progress-bar-fill"
-            style={{
-              width: `${Math.min(100, (speed / 30) * 100)}%`,
-              background: 'var(--accent-purple)',
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Signal */}
+      {/* Signal (Status group) */}
       <div className={`widget-card ${signalStatus}`}>
         <div className="widget-header">
           <SignalIcon />
@@ -180,6 +138,48 @@ export default function StatusWidgets({ telemetry }: Props) {
         <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
           {getSignalLabel(signal)}
         </p>
+      </div>
+
+      {/* Speed (Flight group) */}
+      <div className="widget-card brand">
+        <div className="widget-header">
+          <SpeedIcon />
+          <span>Ground Speed</span>
+        </div>
+        <div className="widget-value-container">
+          <span className="widget-value mono">{speed.toFixed(2)}</span>
+          <span className="widget-unit">m/s</span>
+        </div>
+        <div className="progress-bar-bg">
+          <div
+            className="progress-bar-fill"
+            style={{
+              width: `${Math.min(100, (speed / 30) * 100)}%`,
+              background: 'var(--accent-purple)',
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Altitude (Positioned under Speed) */}
+      <div className="widget-card brand">
+        <div className="widget-header">
+          <AltIcon />
+          <span>Altitude (AGL)</span>
+        </div>
+        <div className="widget-value-container">
+          <span className="widget-value mono">{altitude.toFixed(2)}</span>
+          <span className="widget-unit">m</span>
+        </div>
+        <div className="progress-bar-bg">
+          <div
+            className="progress-bar-fill"
+            style={{
+              width: `${Math.min(100, (altitude / 400) * 100)}%`,
+              background: 'var(--accent-blue)',
+            }}
+          />
+        </div>
       </div>
     </aside>
   );

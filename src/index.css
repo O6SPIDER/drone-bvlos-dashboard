@@ -174,7 +174,16 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.025em; }
   background: var(--bg-panel);
   position: relative;
   height: 500px;
+  min-height: 350px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+  .map-container { height: 400px; }
+}
+
+@media (max-width: 480px) {
+  .map-container { height: 350px; }
 }
 
 .map-overlay {
@@ -515,5 +524,71 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.025em; }
   .status-badge {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Landscape Mode Optimizations */
+@media (orientation: landscape) and (max-height: 550px) {
+  #root { padding: 0.5rem; }
+  
+  .dashboard-header {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-title h1 { font-size: 1rem !important; }
+  .header-title p { display: none; }
+
+  .responsive-main-grid {
+    grid-template-columns: 1.2fr 300px !important;
+    gap: 0.75rem !important;
+    display: grid !important;
+  }
+
+  .map-container {
+    height: 65vh !important;
+    min-height: 250px;
+  }
+
+  .map-overlay {
+    padding: 0.5rem 0.75rem;
+    gap: 1rem;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .overlay-value { font-size: 1rem; }
+
+  .charts-panel {
+    height: 200px;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 700px) {
+    .sidebar {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .widget-card {
+    padding: 0.75rem 1rem;
+  }
+
+  .widget-value {
+    font-size: 1.75rem;
+  }
+  
+  .widget-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-bar-bg {
+    margin-top: 0.75rem;
   }
 }

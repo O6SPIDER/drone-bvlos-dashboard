@@ -214,8 +214,8 @@ function App() {
 
   return (
     <div
-      className="grid grid-cols-1 xl:grid-cols-[1fr_340px] grid-rows-[auto_1fr] gap-6 max-w-[1600px] mx-auto w-full"
-      style={{ height: 'calc(100vh - 3rem)', overflow: 'hidden', display: 'grid' }}
+      className="grid grid-cols-1 xl:grid-cols-[1fr_340px] grid-rows-[auto_1fr] gap-4 md:gap-6 max-w-[1600px] mx-auto w-full"
+      style={{ minHeight: 'calc(100vh - 3rem)', display: 'grid' }}
     >
       <Header
         connectionStatus={connectionStatus}
@@ -243,14 +243,14 @@ function App() {
           className="custom-scrollbar"
           style={{
             gridColumn: '1 / -1',
-            overflowY: 'auto',
             paddingRight: '4px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '1.5rem'
+            gap: '1.5rem',
+            width: '100%'
           }}
         >
-          <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6 w-full">
+          <div className="responsive-main-grid grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6 w-full">
             <main className="flex flex-col gap-6 animate-slide-up">
               <DroneMap
                 lat={telemetry.lat}
