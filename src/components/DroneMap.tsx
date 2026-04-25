@@ -57,15 +57,15 @@ export default function DroneMap({ lat, lng, altitude, path, initialLat, initial
       <div className="map-overlay z-[1000]">
         <div className="overlay-metric">
           <span className="overlay-label">LAT</span>
-          <span className="overlay-value mono">{lat.toFixed(5)}°</span>
+          <span className="overlay-value mono">{lat.toFixed(7)}°</span>
         </div>
         <div className="overlay-metric">
           <span className="overlay-label">LNG</span>
-          <span className="overlay-value mono">{lng.toFixed(5)}°</span>
+          <span className="overlay-value mono">{lng.toFixed(7)}°</span>
         </div>
         <div className="overlay-metric">
           <span className="overlay-label">ALT</span>
-          <span className="overlay-value mono">{altitude.toFixed(1)}m</span>
+          <span className="overlay-value mono">{altitude.toFixed(2)}m</span>
         </div>
       </div>
       <MapContainer

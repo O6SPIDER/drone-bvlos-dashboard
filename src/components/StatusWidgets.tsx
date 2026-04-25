@@ -122,7 +122,7 @@ export default function StatusWidgets({ telemetry }: Props) {
           <span>Altitude (AGL)</span>
         </div>
         <div className="widget-value-container">
-          <span className="widget-value mono">{altitude.toFixed(1)}</span>
+          <span className="widget-value mono">{altitude.toFixed(2)}</span>
           <span className="widget-unit">m</span>
         </div>
         <div className="progress-bar-bg">
@@ -143,7 +143,7 @@ export default function StatusWidgets({ telemetry }: Props) {
           <span>Ground Speed</span>
         </div>
         <div className="widget-value-container">
-          <span className="widget-value mono">{speed.toFixed(1)}</span>
+          <span className="widget-value mono">{speed.toFixed(2)}</span>
           <span className="widget-unit">m/s</span>
         </div>
         <div className="progress-bar-bg">
@@ -165,7 +165,7 @@ export default function StatusWidgets({ telemetry }: Props) {
         </div>
         <div className="widget-value-container">
           <span className="widget-value mono" style={{ fontSize: signal === null ? '1.25rem' : undefined }}>
-            {signal === null || signal === 0 ? '—' : Math.abs(signal).toFixed(0)}
+            {signal === null || signal === 0 ? '—' : Math.abs(signal).toFixed(1)}
           </span>
           {signal !== null && signal !== 0 && (
             <span className="widget-unit">{signal < 0 ? 'dBm' : '%'}</span>

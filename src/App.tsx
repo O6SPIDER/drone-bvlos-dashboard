@@ -11,7 +11,7 @@ import ConnectionScreen from './components/ConnectionScreen';
 import SecureLogoutControl from './components/SecureLogoutControl';
 import Logs from './components/Logs';
 
-// Utility to check if JWT is expired
+
 function isTokenExpired(token: string): boolean {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
@@ -141,18 +141,25 @@ function App() {
 
             const nextData: TelemetryData = { ...base, timestamp: new Date().toLocaleTimeString() };
 
-            // Extract latest values (TB sends arrays of [timestamp, value])
-            if (newData.latitude) nextData.lat = parseFloat(newData.latitude[0][1]);
-            if (newData.longitude) nextData.lng = parseFloat(newData.longitude[0][1]);
-            if (newData.altitude) nextData.altitude = parseFloat(newData.altitude[0][1]);
-            if (newData.speed) nextData.speed = parseFloat(newData.speed[0][1]);
-            if (newData.battery) nextData.battery = parseFloat(newData.battery[0][1]);
-            if (newData.signal !== undefined) nextData.signal = parseFloat(newData.signal[0][1]);
+            // Extract latest values supporting both short and long keys
+            const latVal = newData.lat || newData.latitude;
+            const lngVal = newData.lon || newData.longitude;
+            const altVal = newData.alt || newData.altitude;
+            const spdVal = newData.groundspeed || newData.speed;
+            const batVal = newData.battery;
+            const sigVal = newData.rssi || newData.signal;
+
+            if (latVal) nextData.lat = parseFloat(latVal[0][1]);
+            if (lngVal) nextData.lng = parseFloat(lngVal[0][1]);
+            if (altVal) nextData.altitude = parseFloat(altVal[0][1]);
+            if (spdVal) nextData.speed = parseFloat(spdVal[0][1]);
+            if (batVal) nextData.battery = parseFloat(batVal[0][1]);
+            if (sigVal !== undefined) nextData.signal = parseFloat(sigVal[0][1]);
             if (newData.status) nextData.status = newData.status[0][1];
 
             // Log status changes
             if (nextData.status && nextData.status !== lastStatusRef.current) {
-              addLog(`UAV Status changed to: ${nextData.status.toUpperCase()}`, 
+              addLog(`UAV Status changed to: ${nextData.status.toUpperCase()}`,
                 nextData.status.toLowerCase() === 'error' ? 'error' : 'info');
               lastStatusRef.current = nextData.status;
             }
@@ -206,13 +213,13 @@ function App() {
   }
 
   return (
-    <div 
+    <div
       className="grid grid-cols-1 xl:grid-cols-[1fr_340px] grid-rows-[auto_1fr] gap-6 max-w-[1600px] mx-auto w-full"
       style={{ height: 'calc(100vh - 3rem)', overflow: 'hidden', display: 'grid' }}
     >
-      <Header 
-        connectionStatus={connectionStatus} 
-        droneStatus={telemetry?.status} 
+      <Header
+        connectionStatus={connectionStatus}
+        droneStatus={telemetry?.status}
         activeView={activeView}
         onNavigate={setActiveView}
         onLogout={handleLogout}
@@ -232,11 +239,11 @@ function App() {
           }}
         />
       ) : (
-        <div 
+        <div
           className="custom-scrollbar"
-          style={{ 
-            gridColumn: '1 / -1', 
-            overflowY: 'auto', 
+          style={{
+            gridColumn: '1 / -1',
+            overflowY: 'auto',
             paddingRight: '4px',
             display: 'flex',
             flexDirection: 'column',

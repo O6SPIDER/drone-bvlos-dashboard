@@ -20,7 +20,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>{label}</p>
         {payload.map((p: any) => (
           <p key={p.dataKey} style={{ color: p.color }}>
-            {p.name}: <strong>{p.value.toFixed(1)}</strong>
+            {p.name}: <strong>{p.value.toFixed(2)}</strong>
           </p>
         ))}
       </div>
