@@ -112,7 +112,14 @@ export default function DroneMap({ lat, lng, altitude, path, initialLat, initial
             Drone Position. <br /> Altitude: {altitude}m
           </Popup>
         </Marker>
-        <Polyline positions={path} color="var(--accent-blue)" weight={3} opacity={0.7} />
+        <Polyline 
+          positions={path} 
+          color="#38bdf8" 
+          weight={4} 
+          opacity={0.8} 
+          lineCap="round" 
+          lineJoin="round"
+        />
       </MapContainer>
     </div>
   );

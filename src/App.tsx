@@ -170,7 +170,7 @@ function App() {
               return newHistory;
             });
 
-            if (newData.latitude || newData.longitude) {
+            if (latVal || lngVal) {
               setPath((curr) => {
                 const newPath = [...curr, [nextData.lat, nextData.lng] as [number, number]];
                 if (newPath.length > 300) newPath.shift();
